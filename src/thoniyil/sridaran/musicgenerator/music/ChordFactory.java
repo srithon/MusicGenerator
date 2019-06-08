@@ -19,7 +19,18 @@ public class ChordFactory
 	
 	private void newProgressions()
 	{
-		newProgressions(progressions[0].getRoot().getInterval((Math.random() > 0.5) ? 1 : -1));
+		boolean error = true;
+		System.out.println("Called newProgressions");
+		while (error)
+			try
+			{
+				newProgressions(progressions[0].getRoot().getInterval((Math.random() > 0.5) ? 1 : -1));
+				error = false;
+			}
+			catch (ArrayIndexOutOfBoundsException e)
+			{
+				
+			}
 	}
 	
 	private void newProgressions(Note root)
@@ -43,7 +54,7 @@ public class ChordFactory
 	
 	public ChordProgression next()
 	{
-		if (currentProgression == progressions.length)
+		if (currentProgression % progressions.length == 0)
 			newProgressions();
 		return progressions[currentProgression++ % progressions.length];
 	}
