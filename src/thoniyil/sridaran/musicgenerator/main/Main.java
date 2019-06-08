@@ -1,4 +1,4 @@
-package thoniyil.sridaran.musicmaker.main;
+package thoniyil.sridaran.musicgenerator.main;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
@@ -6,9 +6,9 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
-import thoniyil.sridaran.musicmaker.music.ChordFactory;
-import thoniyil.sridaran.musicmaker.music.ChordProgression;
-import thoniyil.sridaran.musicmaker.music.Note;
+import thoniyil.sridaran.musicgenerator.music.ChordFactory;
+import thoniyil.sridaran.musicgenerator.music.ChordProgression;
+import thoniyil.sridaran.musicgenerator.music.Note;
 
 public class Main {
 	public static void main(String[] args)

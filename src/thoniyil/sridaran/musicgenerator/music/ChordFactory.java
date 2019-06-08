@@ -1,4 +1,4 @@
-package thoniyil.sridaran.musicmaker.music;
+package thoniyil.sridaran.musicgenerator.music;
 
 //TODO make endless
 public class ChordFactory
