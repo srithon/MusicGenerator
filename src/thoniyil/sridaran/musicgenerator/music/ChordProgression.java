@@ -65,7 +65,7 @@ public class ChordProgression
 	
 	public String currentChord()
 	{
-		return progressionChordTypes[currentIndex].toString() + progressionRootRelative[currentIndex];
+		return progressionRootRelative[currentIndex] + progressionChordTypes[currentIndex].toString();
 	}
 	
 	public boolean hasNext()
@@ -120,12 +120,10 @@ public class ChordProgression
 				notes[3] = progBase.getInterval((int) (Math.random() * 2) + Interval.PERFECT_FIFTH.getSemiTones()).getNumber();
 				notes[4] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
 				break;
-			case JAZZ2:
-				notes[1] = progBase.getInterval(Interval.MINOR_THIRD).getNumber();
-				notes[2] = progBase.getInterval(Interval.PERFECT_FOURTH).getNumber();
-				notes[3] = progBase.getInterval(Interval.MINOR_SIXTH).getNumber();
-				notes[4] = progBase.getInterval(Interval.MINOR_NINTH).getNumber();
-				notes[5] = progBase.getInterval(Interval.MAJOR_ELEVENTH).getNumber();
+			case RANDOM:
+				NoteWrapper f = progBase.getInterval((int) (Math.random() * 3) + 2);
+				notes[1] = f.getNumber();
+				notes[2] = f.getInterval((int) (Math.random() * 3) + 2).getNumber();
 				break;
 		}
 		

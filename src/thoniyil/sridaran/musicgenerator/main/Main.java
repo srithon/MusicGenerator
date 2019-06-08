@@ -15,7 +15,7 @@ import thoniyil.sridaran.musicgenerator.music.Note;
 public class Main {
 	public static void main(String[] args)
 	{
-		improvise(15);
+		improvise(60);
 	}
 
 	public static void improvise(int bpm)
