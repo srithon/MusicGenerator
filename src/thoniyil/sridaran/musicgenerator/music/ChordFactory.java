@@ -1,6 +1,5 @@
 package thoniyil.sridaran.musicgenerator.music;
 
-//TODO make endless
 public class ChordFactory
 {
 	private ChordProgression[] progressions;
@@ -8,7 +7,7 @@ public class ChordFactory
 	
 	public ChordFactory(Note root)
 	{
-		newProgressions(root);
+		newProgressions(new NoteWrapper(root));
 		currentProgression = 0;
 	}
 	
@@ -19,22 +18,12 @@ public class ChordFactory
 	
 	private void newProgressions()
 	{
-		boolean error = true;
-		System.out.println("Called newProgressions");
-		while (error)
-			try
-			{
-				newProgressions(progressions[0].getRoot().getInterval((Math.random() > 0.5) ? 1 : -1));
-				error = false;
-			}
-			catch (ArrayIndexOutOfBoundsException e)
-			{
-				
-			}
+		newProgressions(progressions[0].getRoot().getInterval((Math.random() > 0.5) ? 1 : -1));
 	}
 	
-	private void newProgressions(Note root)
+	private void newProgressions(NoteWrapper root)
 	{
+		System.out.println("Called newProgressions");
 		progressions = new ChordProgression[3];
 		for (int i = 0; i < progressions.length; i++)
 		{
@@ -54,6 +43,7 @@ public class ChordFactory
 	
 	public ChordProgression next()
 	{
+		System.out.println("Current Progression: " + currentProgression);
 		if (currentProgression % progressions.length == 0)
 			newProgressions();
 		return progressions[currentProgression++ % progressions.length];

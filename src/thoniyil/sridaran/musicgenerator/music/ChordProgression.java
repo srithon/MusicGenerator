@@ -4,20 +4,49 @@ import java.util.Arrays;
 
 public class ChordProgression
 {
-	private Note root;
+	private NoteWrapper root;
 	private int[] progressionRootRelative; //relation to the root
 	private ChordType[] progressionChordTypes; //type of chord
 	private int currentIndex;
 	
-	public ChordProgression(Note root, int[] progression, ChordType[] chordTypes)
+	public ChordProgression(NoteWrapper root, int[] progression, ChordType[] chordTypes)
 	{
 		this.progressionRootRelative = Arrays.copyOf(progression, progression.length);
 		this.progressionChordTypes = Arrays.copyOf(chordTypes, chordTypes.length);
 		this.root = root;
-		currentIndex = 0;
+		currentIndex = -1;
 	}
 	
-	public Note getRoot()
+	public int[] getBassNotes()
+	{
+		NoteWrapper base = root.getInterval(progressionRootRelative[currentIndex]).getInterval(Interval.PERFECT_OCTAVE, -1);
+		
+		switch (progressionChordTypes[currentIndex])
+		{
+			case MAJOR:
+			case MINOR:
+			case DIMINISHED:
+			case AUGMENTED:
+				return getNotes(base, currentIndex);
+			case JAZZ1:
+				int[] bass = new int[4];
+				base = base.getInterval(Interval.MINOR_THIRD, -1);
+				bass[0] = base.getNumber();
+				bass[1] = base.getInterval(Interval.MAJOR_THIRD).getNumber();
+				bass[2] = base.getInterval(Interval.PERFECT_FIFTH).getNumber();
+				bass[3] = base.getInterval(Interval.MINOR_SEVENTH).getNumber();
+				return bass;
+			default:
+				int[] bassJ2 = new int[3];
+				base = base.getInterval(Interval.MINOR_THIRD, -1);
+				bassJ2[0] = base.getNumber();
+				bassJ2[1] = base.getInterval(Interval.PERFECT_FOURTH).getNumber();
+				bassJ2[2] = base.getInterval(Interval.MINOR_SEVENTH).getNumber();
+				return bassJ2;
+		}
+	}
+	
+	public NoteWrapper getRoot()
 	{
 		return root;
 	}
@@ -28,7 +57,8 @@ public class ChordProgression
 		String r = "";
 		for (int i = 0; i < notes.length; i++)
 		{
-			r += (Note.values()[notes[i] - 60].toString() + " ");
+			// if C is 60
+			r += (notes[i] + " ");
 		}
 		return r;
 	}
@@ -53,24 +83,25 @@ public class ChordProgression
 		return getNotes(currentIndex++);
 	}
 	
-	public int[] getNotes(int progIndex)
+	public int[] getNotes(NoteWrapper progBase, int progIndex)
 	{
-		int[] notes = null;
-		if (progressionChordTypes[progIndex].equals(ChordType.JAZZ1))
-			notes = new int[5];
-		else if (progressionChordTypes[progIndex].equals(ChordType.JAZZ2))
-			notes = new int[7];
-		else
-			notes = new int[3];
-		Note progBase = root.getInterval(progressionRootRelative[progIndex]);
+		int[] notes = new int[progressionChordTypes[progIndex].getNumNotes()];
+		
 		notes[0] = progBase.getNumber();
 		
 		switch (progressionChordTypes[progIndex])
 		{
+			case MAJOR7:
+				notes[3] = progBase.getInterval(Interval.MAJOR_SEVENTH).getNumber();
+			case DOM7:
+				if (progressionChordTypes[progIndex].equals(ChordType.DOM7))
+					notes[3] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
 			case MAJOR:
 				notes[1] = progBase.getInterval(Interval.MAJOR_THIRD).getNumber();
 				notes[2] = progBase.getInterval(Interval.PERFECT_FIFTH).getNumber();
 				break;
+			case MINOR7:
+				notes[3] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
 			case MINOR:
 				notes[1] = progBase.getInterval(Interval.MINOR_THIRD).getNumber();
 				notes[2] = progBase.getInterval(Interval.PERFECT_FIFTH).getNumber();
@@ -92,13 +123,19 @@ public class ChordProgression
 			case JAZZ2:
 				notes[1] = progBase.getInterval(Interval.MINOR_THIRD).getNumber();
 				notes[2] = progBase.getInterval(Interval.PERFECT_FOURTH).getNumber();
-				notes[3] = progBase.getInterval(Interval.MINOR_SIXTH.getSemiTones()).getNumber();
-				notes[4] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
-				notes[5] = progBase.getInterval(Interval.MINOR_NINTH).getNumber();
-				notes[6] = progBase.getInterval(Interval.MAJOR_ELEVENTH).getNumber();
+				notes[3] = progBase.getInterval(Interval.MINOR_SIXTH).getNumber();
+				notes[4] = progBase.getInterval(Interval.MINOR_NINTH).getNumber();
+				notes[5] = progBase.getInterval(Interval.MAJOR_ELEVENTH).getNumber();
+				break;
 		}
 		
 		return notes;
+	}
+	
+	public int[] getNotes(int progIndex)
+	{
+		NoteWrapper progBase = root.getInterval(progressionRootRelative[progIndex]);
+		return getNotes(progBase, progIndex);
 	}
 	
 	public void reset()
