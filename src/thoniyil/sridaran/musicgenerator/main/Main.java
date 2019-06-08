@@ -57,7 +57,18 @@ public class Main {
 					mChannels[1].allNotesOff();
 					
 					for (int i = 0; i < notes.length; i++)
+					{
+						if (Math.random() > 0.80)
+							try
+							{
+								Thread.sleep(50);	
+							}
+							catch (InterruptedException e)
+							{
+								e.printStackTrace();	
+							}
 						mChannels[0].noteOn(notes[i], (int) (Math.random() * 70 + 30));
+					}
 					
 					//for (int i = 0; i < bass.length; i++)
 					//	mChannels[1].noteOn(bass[i], (int) (Math.random() * 70 + 30));
