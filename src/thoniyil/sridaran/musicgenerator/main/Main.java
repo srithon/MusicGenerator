@@ -11,6 +11,8 @@ import javax.sound.midi.Synthesizer;
 import thoniyil.sridaran.musicgenerator.music.ChordFactory;
 import thoniyil.sridaran.musicgenerator.music.ChordProgression;
 import thoniyil.sridaran.musicgenerator.music.Note;
+import thoniyil.sridaran.musicgenerator.music.percussion.DrumSet;
+import thoniyil.sridaran.musicgenerator.music.percussion.Pattern;
 
 public class Main {
 	public static void main(String[] args)
@@ -34,8 +36,11 @@ public class Main {
 
 			midiSynth.loadInstrument(instr[0]);//load an instrument
 			// midiSynth.loadInstrument(instr[34]);
+			midiSynth.loadInstrument(instr[118]); //118: synth drum 114: steel drums
 			
+			mChannels[1].programChange(instr[118].getPatch().getProgram());
 			
+			DrumSet ds = new DrumSet(mChannels[1]);
 			
 			ChordFactory factory = new ChordFactory(Note.C);
 			
@@ -55,6 +60,8 @@ public class Main {
 					
 					mChannels[0].allNotesOff();
 					mChannels[1].allNotesOff();
+					
+					ds.play(new Pattern(), bpm);
 					
 					for (int i = 0; i < notes.length; i++)
 					{
