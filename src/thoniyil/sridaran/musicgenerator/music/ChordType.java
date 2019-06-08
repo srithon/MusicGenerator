@@ -2,7 +2,7 @@ package thoniyil.sridaran.musicgenerator.music;
 
 public enum ChordType
 {
-	MAJOR, MINOR, DIMINISHED, AUGMENTED, JAZZ;
+	MAJOR, MINOR, DIMINISHED, AUGMENTED, JAZZ1, JAZZ2;
 	
 	public static ChordType randomType()
 	{

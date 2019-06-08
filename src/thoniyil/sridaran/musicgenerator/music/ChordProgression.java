@@ -56,8 +56,10 @@ public class ChordProgression
 	public int[] getNotes(int progIndex)
 	{
 		int[] notes = null;
-		if (progressionChordTypes[progIndex].equals(ChordType.JAZZ))
+		if (progressionChordTypes[progIndex].equals(ChordType.JAZZ1))
 			notes = new int[5];
+		else if (progressionChordTypes[progIndex].equals(ChordType.JAZZ2))
+			notes = new int[7];
 		else
 			notes = new int[3];
 		Note progBase = root.getInterval(progressionRootRelative[progIndex]);
@@ -81,11 +83,19 @@ public class ChordProgression
 				notes[1] = progBase.getInterval(Interval.MAJOR_THIRD).getNumber();
 				notes[2] = progBase.getInterval(Interval.MINOR_SIXTH).getNumber();
 				break;
-			case JAZZ:
+			case JAZZ1:
 				notes[1] = progBase.getInterval(Interval.MINOR_THIRD).getNumber();
 				notes[2] = progBase.getInterval(Interval.PERFECT_FOURTH).getNumber();
 				notes[3] = progBase.getInterval((int) (Math.random() * 2) + Interval.PERFECT_FIFTH.getSemiTones()).getNumber();
 				notes[4] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
+				break;
+			case JAZZ2:
+				notes[1] = progBase.getInterval(Interval.MINOR_THIRD).getNumber();
+				notes[2] = progBase.getInterval(Interval.PERFECT_FOURTH).getNumber();
+				notes[3] = progBase.getInterval(Interval.MINOR_SIXTH.getSemiTones()).getNumber();
+				notes[4] = progBase.getInterval(Interval.MINOR_SEVENTH).getNumber();
+				notes[5] = progBase.getInterval(Interval.MINOR_NINTH).getNumber();
+				notes[6] = progBase.getInterval(Interval.MAJOR_ELEVENTH).getNumber();
 		}
 		
 		return notes;
