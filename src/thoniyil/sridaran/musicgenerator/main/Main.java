@@ -40,7 +40,7 @@ public class Main {
 			
 			mChannels[1].programChange(instr[118].getPatch().getProgram());
 			
-			DrumSet ds = new DrumSet(mChannels[1]);
+			DrumSet ds = new DrumSet(mChannels[1], bpm);
 			
 			ChordFactory factory = new ChordFactory(Note.C);
 			
@@ -61,7 +61,7 @@ public class Main {
 					mChannels[0].allNotesOff();
 					mChannels[1].allNotesOff();
 					
-					ds.play(new Pattern(), bpm);
+					ds.play(new Pattern());
 					
 					for (int i = 0; i < notes.length; i++)
 					{

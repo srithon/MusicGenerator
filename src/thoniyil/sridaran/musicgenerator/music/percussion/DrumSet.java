@@ -1,40 +1,53 @@
 package thoniyil.sridaran.musicgenerator.music.percussion;
 
+import java.util.Stack;
+
 import javax.sound.midi.MidiChannel;
 
 public class DrumSet
 {
 	private MidiChannel channel;
+	private Stack<Pattern> patterns;
+	private Thread t;
+	private int bpm;
 	
-	public DrumSet(MidiChannel channel)
+	public DrumSet(MidiChannel channel, int bpm)
 	{
 		this.channel = channel;
+		this.bpm = bpm;
+		patterns = new Stack<>();
+		t = new Thread(this::playCont);
+		t.start();
 	}
 	
-	public void play(Pattern pattern, int bpm)
+	public void play(Pattern pattern)
 	{
-		new Thread(() -> playMeasure(pattern, bpm)).start();
+		patterns.push(pattern);
 	}
 	
-	private void playMeasure(Pattern pattern, int bpm)
+	private void playCont()
 	{
-		for (boolean b : pattern.getPattern())
+		while (true)
 		{
-			if (b)
-				channel.noteOn(60, (int) (Math.random() * 71 + 30));
-			else
-				channel.allNotesOff();
-			
-			try
-			{ // <subdivision> subdivisions
-				Thread.sleep((int) (60.0 / bpm / Pattern.getSubdivison() * 1000));
-			}
-			catch (InterruptedException e)
+			while (patterns.isEmpty());
+			for (boolean b : patterns.pop().getPattern())
 			{
-				e.printStackTrace();
+				if (b)
+					channel.noteOn(60, (int) (Math.random() * 71 + 30));
+				else
+					channel.allNotesOff();
+				
+				try
+				{ // <subdivision> subdivisions
+					Thread.sleep((int) (60.0 / bpm / Pattern.getSubdivison() * 1000));
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 			}
+			
+			channel.allNotesOff();
 		}
-		
-		channel.allNotesOff();
 	}
 }
