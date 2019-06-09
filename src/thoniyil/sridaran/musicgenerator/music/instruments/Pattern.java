@@ -3,7 +3,7 @@ package thoniyil.sridaran.musicgenerator.music.instruments;
 // 1 beat
 public class Pattern
 {
-	private static final int SUBDIVISION = 2;
+	private static final int SUBDIVISION = 8;
 	
 	private boolean[] onOff;
 	

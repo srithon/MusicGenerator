@@ -27,6 +27,7 @@ public class DrumSet extends AutonomousInstrument
 	
 	protected void playCont()
 	{
+		while (patterns == null);
 		while (true)
 		{
 			while (patterns.isEmpty());
