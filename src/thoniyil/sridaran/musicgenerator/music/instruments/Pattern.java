@@ -1,4 +1,4 @@
-package thoniyil.sridaran.musicgenerator.music.percussion;
+package thoniyil.sridaran.musicgenerator.music.instruments;
 
 // 1 beat
 public class Pattern

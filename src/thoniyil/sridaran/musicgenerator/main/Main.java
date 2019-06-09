@@ -10,9 +10,11 @@ import javax.sound.midi.Synthesizer;
 
 import thoniyil.sridaran.musicgenerator.music.ChordFactory;
 import thoniyil.sridaran.musicgenerator.music.ChordProgression;
+import thoniyil.sridaran.musicgenerator.music.Interval;
 import thoniyil.sridaran.musicgenerator.music.Note;
-import thoniyil.sridaran.musicgenerator.music.percussion.DrumSet;
-import thoniyil.sridaran.musicgenerator.music.percussion.Pattern;
+import thoniyil.sridaran.musicgenerator.music.instruments.Bass;
+import thoniyil.sridaran.musicgenerator.music.instruments.DrumSet;
+import thoniyil.sridaran.musicgenerator.music.instruments.Pattern;
 
 public class Main {
 	public static void main(String[] args)
@@ -35,12 +37,14 @@ public class Main {
 			System.out.println(Arrays.toString(instr));
 
 			midiSynth.loadInstrument(instr[0]);//load an instrument
-			// midiSynth.loadInstrument(instr[34]);
 			midiSynth.loadInstrument(instr[118]); //118: synth drum 114: steel drums
+			midiSynth.loadInstrument(instr[34]);
 			
 			mChannels[1].programChange(instr[118].getPatch().getProgram());
+			mChannels[2].programChange(instr[34].getPatch().getProgram());
 			
 			DrumSet ds = new DrumSet(mChannels[1], bpm);
+			Bass bass = new Bass(mChannels[2]);
 			
 			ChordFactory factory = new ChordFactory(Note.C);
 			
@@ -62,6 +66,7 @@ public class Main {
 					mChannels[1].allNotesOff();
 					
 					ds.play(new Pattern());
+					bass.playChord(notes, -Interval.PERFECT_OCTAVE.getSemiTones());
 					
 					for (int i = 0; i < notes.length; i++)
 					{
