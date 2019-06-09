@@ -3,23 +3,23 @@ package thoniyil.sridaran.musicgenerator.music.instruments;
 // 1 beat
 public class Pattern
 {
-	private static final int SUBDIVISION = 8;
+	private static final int SUBDIVISION = 2;
 	
-	private boolean[] pattern;
+	private boolean[] onOff;
 	
 	public Pattern()
 	{
-		pattern = new boolean[SUBDIVISION];
+		onOff = new boolean[SUBDIVISION];
 		
-		for (int i = 0; i < pattern.length; i++)
+		for (int i = 0; i < onOff.length; i++)
 		{
-			pattern[i] = Math.random() > 0.80;
+			onOff[i] = Math.random() > 0.80;
 		}
 	}
 	
-	public boolean[] getPattern()
+	public boolean[] getOnOff()
 	{
-		return pattern;
+		return onOff;
 	}
 	
 	public static int getSubdivison()

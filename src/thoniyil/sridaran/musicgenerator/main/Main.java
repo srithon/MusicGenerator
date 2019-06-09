@@ -15,6 +15,7 @@ import thoniyil.sridaran.musicgenerator.music.Note;
 import thoniyil.sridaran.musicgenerator.music.instruments.Bass;
 import thoniyil.sridaran.musicgenerator.music.instruments.DrumSet;
 import thoniyil.sridaran.musicgenerator.music.instruments.Pattern;
+import thoniyil.sridaran.musicgenerator.music.instruments.Piano;
 
 public class Main {
 	public static void main(String[] args)
@@ -43,6 +44,7 @@ public class Main {
 			mChannels[1].programChange(instr[118].getPatch().getProgram());
 			mChannels[2].programChange(instr[34].getPatch().getProgram());
 			
+			Piano piano = new Piano(mChannels[0]);
 			DrumSet ds = new DrumSet(mChannels[1], bpm);
 			Bass bass = new Bass(mChannels[2]);
 			
@@ -65,22 +67,9 @@ public class Main {
 					mChannels[0].allNotesOff();
 					mChannels[1].allNotesOff();
 					
+					piano.playChord(notes);
 					ds.play(new Pattern());
 					bass.playChord(notes, -Interval.PERFECT_OCTAVE.getSemiTones());
-					
-					for (int i = 0; i < notes.length; i++)
-					{
-						if (Math.random() > 0.80)
-							try
-							{
-								Thread.sleep(50);	
-							}
-							catch (InterruptedException e)
-							{
-								e.printStackTrace();	
-							}
-						mChannels[0].noteOn(notes[i], (int) (Math.random() * 70 + 30));
-					}
 					
 					//for (int i = 0; i < bass.length; i++)
 					//	mChannels[1].noteOn(bass[i], (int) (Math.random() * 70 + 30));
