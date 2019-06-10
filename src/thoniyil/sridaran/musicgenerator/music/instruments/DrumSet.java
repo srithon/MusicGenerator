@@ -31,12 +31,13 @@ public class DrumSet extends AutonomousInstrument
 		while (true)
 		{
 			while (patterns.isEmpty());
-			for (boolean b : patterns.pop().getOnOff())
+			Pattern p = patterns.pop();
+			for (boolean b : p.getOnOff())
 			{
 				long start = System.nanoTime();
 				if (b)
 				{
-					getChannel().noteOn(60, (int) (Math.random() * 71 + 30));
+					getChannel().noteOn(p.getPitch(), (int) (Math.random() * 71 + 30));
 					//System.out.println("hit");
 				}
 				else

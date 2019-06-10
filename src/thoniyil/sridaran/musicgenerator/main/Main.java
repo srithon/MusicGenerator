@@ -68,7 +68,7 @@ public class Main {
 					mChannels[1].allNotesOff();
 					
 					piano.playChord(notes);
-					ds.play(new Pattern());
+					ds.play(new Pattern(notes[0]));
 					bass.playChord(notes, -Interval.PERFECT_OCTAVE.getSemiTones());
 					
 					//for (int i = 0; i < bass.length; i++)

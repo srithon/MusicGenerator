@@ -7,7 +7,9 @@ public class Pattern
 	
 	private boolean[] onOff;
 	
-	public Pattern()
+	private int pitch;
+	
+	public Pattern(int rootNotePitch)
 	{
 		onOff = new boolean[SUBDIVISION];
 		
@@ -15,6 +17,8 @@ public class Pattern
 		{
 			onOff[i] = Math.random() > 0.80;
 		}
+		
+		this.pitch = rootNotePitch;
 	}
 	
 	public boolean[] getOnOff()
@@ -25,5 +29,10 @@ public class Pattern
 	public static int getSubdivison()
 	{
 		return SUBDIVISION;
+	}
+	
+	public int getPitch()
+	{
+		return pitch;
 	}
 }
